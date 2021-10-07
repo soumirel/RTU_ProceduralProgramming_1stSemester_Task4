@@ -1,7 +1,10 @@
+
 #include <iostream>
 #include <cmath>
 #include <string>
 #include <fstream>
+#include <iomanip> 
+
 
 using namespace std;
 
@@ -55,11 +58,12 @@ double ex_number()
 }
 
 // Task 2
-int sign(int x)
+int sign(double x)
 {
 	if (x == 0) { return 0; }
 	if (x > 0) { return 1; }
 	if (x < 0) { return -1; }
+	return 0;
 }
 
 // Task 3.1 Rectangle
@@ -96,6 +100,53 @@ void circle()
 	cout << "r = ";
 	radius = input_num_with_check();
 	cout << "Площадь круга = " << PI * radius * radius << endl;
+}
+
+//Task 4
+
+void American_flag()
+{
+	for (size_t i = 0; i < 6; i++)
+	{
+		cout << "\n";
+		for (size_t j = 0; j < 10; j++)
+		{
+			if (i % 2 == 0)
+			{
+				if (j <= 8) { cout << " * "; }
+				else
+				{
+					cout.width(40);
+					cout << setw(40) << setfill('/');
+				}
+			}
+			else
+			{
+				if (j <= 8) { cout << "*  "; }
+				else
+				{
+					cout.width(40);
+					cout << setw(40) << setfill(' ');
+				}
+			}
+		}
+	}		
+	for (size_t i = 0; i < 7; i++)
+	{
+		cout << "\n";
+		for (size_t j = 0; j < 66; j++)
+		{
+			if (i % 2 == 0)
+				{
+				cout << "/";
+				}
+			else
+			{
+				cout << " ";
+			}
+		}
+	}
+	cout << endl;
 }
 
 
@@ -161,11 +212,12 @@ int main()
 			}
 			break;
 		case(4):
-			cout << "Задание: ";
+			cout << "Задание: Былая слава" << endl;
+			American_flag();
 			break;
 		case(5):
-			cout << "Задание: ";
-			cout << "" << endl;
+			cout << "Задание: Синус" << endl;
+			system("c:\\windows\\syswow64\\cmd.exe /c c:\\windows\\sysnative\\cmd.exe /c start /b /w /D\"C:\\Users\\soumireL\\Code\\C++\\MIREA\\task4_5(graph)\\Debug\" task4_5(graph).exe");
 			break;
 		case(6):
 			cout << "Задание: ";
