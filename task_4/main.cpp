@@ -306,11 +306,12 @@ void matrix_multiplication()
 
 	float maxProfit = 0,  maxProfitSeller = 0, maxComissions = 0, maxComissionsSeller = 0;
 	float minProfit = profits[0][0], minProfitSeller = 1, minComissions = profits[0][1], minComissionsSeller = 1;
-	float total_profit = 0, total_comosions = 0;
+	float total_profit = 0, total_comissions = 0;
 	for (int i = 0; i < 3; i++)
 	{
+		cout << "Продавец №" << i + 1 << "всего получил " << profits[i][0] + profits[i][1] << " д.е" << endl;
 		total_profit += profits[i][0];
-		total_comosions += profits[i][1];
+		total_comissions += profits[i][1];
 		if ((profits[i][0]) < minProfit)
 		{
 			minProfit = profits[i][0];
@@ -335,10 +336,14 @@ void matrix_multiplication()
 			maxComissionsSeller = i + 1;
 		}
 	}
+
+	cout << endl;
 	cout << "Наибольшую выручку, равную " << maxProfit << " получил продавец №" << maxProfitSeller << endl;
 	cout << "Наибольшие комиссионные, равные " << maxComissions << " получил продавец №" << maxComissionsSeller << endl << endl;
 	cout << "Наименьшую выручку, равную " << minProfit << " получил продавец №" << minProfitSeller << endl;
-	cout << "Наименьшие комиссионные, равные " << minComissions << " получил продавец №" << minComissionsSeller << endl;
+	cout << "Наименьшие комиссионные, равные " << minComissions << " получил продавец №" << minComissionsSeller << endl << endl;
+	cout << "Общая сумма денег, вырученная за проданные товары равна " << total_profit << " д.е" << endl;
+	cout << "Общая сумма комиссионных равна " << total_comissions << " д.е" << endl;
 }
 
 
