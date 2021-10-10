@@ -306,11 +306,8 @@ void matrix_multiplication()
 
 	float maxProfit = 0,  maxProfitSeller = 0, maxComissions = 0, maxComissionsSeller = 0;
 	float minProfit = profits[0][0], minProfitSeller = 1, minComissions = profits[0][1], minComissionsSeller = 1;
-	float total_profit = 0, total_comosions = 0;
 	for (int i = 0; i < 3; i++)
 	{
-		total_profit += profits[i][0];
-		total_comosions += profits[i][1];
 		if ((profits[i][0]) < minProfit)
 		{
 			minProfit = profits[i][0];
