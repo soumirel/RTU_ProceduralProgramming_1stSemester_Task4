@@ -10,7 +10,7 @@ using namespace std;
 
 const double PI = 3.141592653589793;
 
-
+//Functions for error cheking with input:
 int input_integers()
 {
 	int input_number;
@@ -47,6 +47,40 @@ int input_2_to_16()
 	return input_number;
 }
 
+string input_only_romans_nums()
+{
+	string input_str;
+	bool not_romans_flag;
+
+	cout << "Введите число в римской записи\n";
+
+	while (true)
+	{
+		not_romans_flag = false;
+		cin >> input_str;
+		for (size_t i = 0; i < input_str.length(); i++)
+		{
+			if (input_str[i] != 'I' && input_str[i] != 'V' && input_str[i] != 'X' && input_str[i] != 'L' && input_str[i] != 'C' && input_str[i] != 'D' && input_str[i] != 'M')
+			{
+				not_romans_flag = true;
+				break;
+			}
+		}
+		if (not_romans_flag)
+		{
+			cout << "Вы ввели некорректное число. Пожалуйста, введите значение заново:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+		else
+		{
+			return input_str;
+		}
+	}
+}
+
+
+//Task's functions:
 
 // Task 1
 double ex_number()
@@ -115,9 +149,16 @@ void triangle()
 	side_2 = input_more_then_zero();
 	cout << "3ая сторона = ";
 	side_3 = input_more_then_zero();
-	half_perimeter = (side_1 + side_2 + side_3) / 2;
-	square = sqrt(half_perimeter * (half_perimeter - side_1) * (half_perimeter - side_2) * (half_perimeter - side_3));
-	cout << "Площадь треугольника = " << square << endl;
+	if (side_1 + side_2 <= side_3 || side_2 + side_3 <= side_1 || side_1 + side_3 <= side_2)
+	{
+		cout << "Треугольника с такими параметрами не существует.\n Расчёт площади невозможен.\n";
+	}
+	else
+	{
+		half_perimeter = (side_1 + side_2 + side_3) / 2;
+		square = sqrt(half_perimeter * (half_perimeter - side_1) * (half_perimeter - side_2) * (half_perimeter - side_3));
+		cout << "Площадь треугольника = " << square << endl;
+	}
 }
 // Task 3.3 Circle
 void circle()
@@ -178,6 +219,57 @@ void american_flag()
 
 
 //Task 6
+
+// Funtcion that translate roman number to arabic number
+int roman_to_arabic(char current_с)
+{
+	switch (current_с)
+	{
+	case 'I':
+		return 1;
+	case 'V':
+		return 5;
+	case 'X':
+		return 10;
+	case 'L':
+		return 50;
+	case 'C':
+		return 100;
+	case 'D':
+		return 500;
+	case 'M':
+		return 1000;
+	}
+	return 0;
+}
+
+//main function of 6 task
+void roman_numerals()
+{
+	/*string roman_str = input_only_romans_nums();
+	cout << "input: " << roman_str;
+
+
+	int arabic_numeral = 0;
+	int temp_sum = 0;
+	int current_group = 0;
+
+	for (size_t i = 0; i < roman_str.length(); i++)
+	{
+		if (roman_to_arabic(roman_str[i]) == roman_to_arabic(roman_str[i + 1]))
+		{
+			temp_sum += roman_to_arabic(roman_str[i]);
+		}
+		if (roman_to_arabic(roman_str[i]) < roman_to_arabic(roman_str[i + 1]))
+		{
+
+		}
+		if (roman_to_arabic(roman_str[i]) > roman_to_arabic(roman_str[i + 1]))
+		{
+			if (roman_to_arabic(roman_str[i + 1]) == )
+		}
+	}*/
+}
 
 
 //Task 7
@@ -380,6 +472,7 @@ void number_systems(string start_num, int start_syst, int new_syst)
 
 }
 
+
 int main()
 {
 	setlocale(LC_ALL, "Rus");
@@ -453,7 +546,8 @@ int main()
 			system("c:\\windows\\syswow64\\cmd.exe /c c:\\windows\\sysnative\\cmd.exe /c start /b /w /D\"C:\\Users\\soumireL\\Code\\C++\\MIREA\\task4_5(graph)\\Debug\" task4_5(graph).exe");
 			break;
 		case(6):
-			cout << "Задание: Автоматный распознаватель";
+			cout << "Задание: Автоматный распознаватель" << endl;
+			roman_numerals();
 			cout << "" << endl;
 			break;
 		case(7):
