@@ -219,56 +219,28 @@ void american_flag()
 
 
 //Task 6
-
-// Funtcion that translate roman number to arabic number
-int roman_to_arabic(char current_с)
-{
-	switch (current_с)
-	{
-	case 'I':
-		return 1;
-	case 'V':
-		return 5;
-	case 'X':
-		return 10;
-	case 'L':
-		return 50;
-	case 'C':
-		return 100;
-	case 'D':
-		return 500;
-	case 'M':
-		return 1000;
-	}
-	return 0;
-}
-
-//main function of 6 task
 void roman_numerals()
 {
-	/*string roman_str = input_only_romans_nums();
-	cout << "input: " << roman_str;
-
-
-	int arabic_numeral = 0;
-	int temp_sum = 0;
-	int current_group = 0;
-
-	for (size_t i = 0; i < roman_str.length(); i++)
-	{
-		if (roman_to_arabic(roman_str[i]) == roman_to_arabic(roman_str[i + 1]))
-		{
-			temp_sum += roman_to_arabic(roman_str[i]);
-		}
-		if (roman_to_arabic(roman_str[i]) < roman_to_arabic(roman_str[i + 1]))
-		{
-
-		}
-		if (roman_to_arabic(roman_str[i]) > roman_to_arabic(roman_str[i + 1]))
-		{
-			if (roman_to_arabic(roman_str[i + 1]) == )
-		}
-	}*/
+	int mass[1000];
+	int sum = 0;
+	cout << "Введите римское число" << endl;
+	string str;
+	str = input_only_romans_nums();
+	for (int i = 0; i < str.length(); i++) {
+		if (str[i] == 'M') mass[i] = 1000;
+		if (str[i] == 'D') mass[i] = 500;
+		if (str[i] == 'C') mass[i] = 100;
+		if (str[i] == 'L') mass[i] = 50;
+		if (str[i] == 'X') mass[i] = 10;
+		if (str[i] == 'V') mass[i] = 5;
+		if (str[i] == 'I') mass[i] = 1;
+	}
+	for (int i = 0; i < str.length() - 1; i++) {
+		if (mass[i] < mass[i + 1]) sum = sum - mass[i];
+		else sum = sum + mass[i];
+	}
+	sum = sum + mass[str.length() - 1];
+	cout << sum << endl;
 }
 
 
