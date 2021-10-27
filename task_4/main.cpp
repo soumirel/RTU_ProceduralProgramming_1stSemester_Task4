@@ -1,14 +1,15 @@
 ﻿#include <iostream>
-#include <cmath>
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <string>
 #include <fstream>
 #include <iomanip> 
 #include <string>
-
+#define NOMINMAX
+#include <windows.h>
 
 using namespace std;
 
-const double PI = 3.141592653589793;
 
 //Functions for error cheking with input:
 int input_integers()
@@ -35,10 +36,10 @@ double input_more_then_zero()
 	return input_number;
 }
 
-int input_2_to_16() 
+int input_2_to_32() 
 {
 	int input_number;
-	while (!(cin >> input_number) || input_number < 2 || input_number > 16)
+	while (!(cin >> input_number) || input_number < 2 || input_number > 32)
 	{
 		cout << "Вы ввели некорректное число. Пожалуйста, введите значение заново:\n";
 		cin.clear();
@@ -46,6 +47,42 @@ int input_2_to_16()
 	}
 	return input_number;
 }
+
+int correct_syst_input(int syst, string line)
+{
+	int count = 0;
+		for (int i = 0; i < line.length(); i++)
+		{
+			if (line[i] == '.')
+			{
+				count += 1;
+			}
+			else if (line[i] >= 65)
+			{
+				if (line[i] - 55 < syst)
+				{
+					count += 1;
+				}
+			}
+			else
+			{
+				if (line[i] - '0' < syst)
+				{
+					count += 1;
+				}
+			}
+		}
+		if (count == line.length())
+		{
+			return syst;
+		}
+		else
+		{
+			cout << "Значение системы счисления недопустимо\n";
+			return 0;
+		}
+}
+
 
 string input_only_romans_nums()
 {
@@ -167,7 +204,7 @@ void circle()
 	cout << "Введите радиус, необходимые для поиска площади.\n";
 	cout << "r = ";
 	radius = input_more_then_zero();
-	cout << "Площадь круга = " << PI * radius * radius << endl;
+	cout << "Площадь круга = " << M_PI * radius * radius << endl;
 }
 
 
@@ -217,6 +254,64 @@ void american_flag()
 	cout << endl;
 }
 
+
+//Task 5
+void graph()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	int height = 20;
+	int width = 190;
+	string array[30][200];
+	for (int y = 0; y < height; ++y) {
+		for (int x = 0; x < width; ++x) {
+			int y = (sin(x * 4 * M_PI / width) + 1) / 2 * height;
+			if ((y >= 0) && (y < height)) {
+				array[y][x] = "*";
+			}
+		}
+	}
+	for (int y = 0; y < height; ++y) {
+		for (int x = 0; x < width - 25; ++x) {
+			if (array[y][x] == ""){
+				if (y == 0 && x == 48) {
+					SetConsoleTextAttribute(hConsole, 240);
+					cout << "^";
+				}
+				else if (y == 9 && x == 164) {
+					SetConsoleTextAttribute(hConsole, 240);
+					cout << ">";
+				}
+				else if (y == 0 && x == 50) {
+					SetConsoleTextAttribute(hConsole, 240);
+					cout << "Y";
+				}
+				else if (y == 8 && x == 164) {
+					SetConsoleTextAttribute(hConsole, 240);
+					cout << "X";
+				}
+				else if (y == 9) {
+					SetConsoleTextAttribute(hConsole, 240);
+					cout << "-";
+				}
+				else if (x == 48) {
+					SetConsoleTextAttribute(hConsole, 240);
+					cout << "|";
+				}
+				else {
+					SetConsoleTextAttribute(hConsole, 240);
+					cout << " ";
+				}
+			}
+			else {
+				SetConsoleTextAttribute(hConsole, 244);
+				cout << array[y][x];
+			}
+		}
+		cout << endl;
+	}
+	SetConsoleTextAttribute(hConsole, 7);
+	cout << endl;
+}
 
 //Task 6
 void roman_numerals()
@@ -414,33 +509,96 @@ void matrix_multiplication()
 //Task 9
 void number_systems(string start_num, int start_syst, int new_syst) 
 {
-	int decimal_number = 0, decimal_degree = 0;
+	int int_decimal_number = 0;
+	double fract_decimal_number = 0;
 	int normal_int;
-	string new_number = "";
+	int fract_calc_length;
+	float float_from_fractpart;
+	int int_from_fractpart;
+	string new_number_int = "";
+	string new_number_fract = ".";
+	string int_number = "";
+	string fract_number = "";
+	bool dot_flag = false;
+	
+	for (int i = 0; i < start_num.length(); i++)
+	{
+		if (start_num[i] == '.')
+		{
+			dot_flag = true;
+		}
+		 else if (!dot_flag)
+		{
+			int_number += start_num[i];
+		}
+		else if (dot_flag)
+		{
+			fract_number += start_num[i];
+		}
+	}
 
-	for (int i = 0; i < start_num.length(); i ++)
+	for (int i = 0; i < int_number.length(); i ++)
 	{	
-		if (start_num[i] < 65) { normal_int = int(start_num[i] - '0'); }
-		else { normal_int = int(start_num[i] - 55); }
-		decimal_number += normal_int * pow(start_syst, start_num.length() - i - 1);
-		decimal_degree++;
+		if (int_number[i] < 65) { normal_int = int(int_number[i] - '0'); }
+		else { normal_int = int(int_number[i] - 55); }
+		int_decimal_number += normal_int * pow(start_syst, int_number.length() - i - 1);
 	}
 	
-	while (decimal_number > 0)
+	for (int i = 0; i < fract_number.length(); i++)
 	{
-		if (decimal_number % new_syst < 10)
+		if (fract_number[i] < 65) { normal_int = int(fract_number[i] - '0'); }
+		else { normal_int = int(fract_number[i] - 55); }
+		fract_decimal_number += normal_int * pow(start_syst, -i - 1);
+	}
+
+	while (int_decimal_number > 0)
+	{
+		if (int_decimal_number % new_syst < 10)
 		{
-			new_number = char(decimal_number % new_syst + 48) + new_number;
+			new_number_int = char(int_decimal_number % new_syst + 48) + new_number_int;
 		}
 		else
 		{
-			new_number = char(decimal_number % new_syst + 55) + new_number;
+			new_number_int = char(int_decimal_number % new_syst + 55) + new_number_int;
 
 		}
-		decimal_number /= new_syst;
+		int_decimal_number /= new_syst;
 	}
 
-	cout << start_num << "(" << start_syst << " c.c.) = " << new_number << "(" << new_syst << "c.c)\n";
+	fract_calc_length = (log(pow(10, to_string(fract_decimal_number).length()) / 2) / log(new_syst));
+	for (int i = 0; i < fract_calc_length; i++)
+	{
+		float_from_fractpart = fract_decimal_number * new_syst;
+		int_from_fractpart = int(float_from_fractpart);
+		if (int_from_fractpart < 10)
+		{
+			new_number_fract += char(int_from_fractpart + 48);
+		}
+		else
+		{
+			new_number_fract += char(int_from_fractpart + 55);
+		}
+		fract_decimal_number = float_from_fractpart - int_from_fractpart;
+		if (fract_decimal_number == 0)
+		{
+			break;
+		}
+	}
+	if (new_number_int != "0")
+	{
+		if (new_number_fract != ".")
+		{
+			cout << start_num << "(" << start_syst << " c.c.) = " << new_number_int << new_number_fract << "(" << new_syst << "c.c)\n";
+		}
+		else
+		{
+			cout << start_num << "(" << start_syst << " c.c.) = " << new_number_int << "(" << new_syst << "c.c)\n";
+		}
+	}
+	else
+	{
+		cout << start_num << "(" << start_syst << " c.c.) = 0" << new_number_fract << "(" << new_syst << "c.c)\n";
+	}
 
 }
 
@@ -455,10 +613,15 @@ int main()
 	// variables for intput
 	double input_number;
 	string start_input_num;
-	int start_input_syst, new_input_syst;
+	int start_input_syst = 0, new_input_syst;
+	bool correct_syst_flag = false;
 	bool err_flag;
+	bool err_flag_2;
 	// vars task 3
 	bool flag_choice = true;
+	// vars task 5
+	int graph_switch;
+	bool graph_flag = false;
 
 	while (flag)
 	{
@@ -515,7 +678,24 @@ int main()
 			break;
 		case(5):
 			cout << "Задание: Синус" << endl;
-			system("c:\\windows\\syswow64\\cmd.exe /c c:\\windows\\sysnative\\cmd.exe /c start /b /w /D\"C:\\Users\\soumireL\\Code\\C++\\MIREA\\task4_5(graph)\\Debug\" task4_5(graph).exe");
+			cout << "Как построить график синуса?\n1.Текстом в консоли\n2.Рисунком на \"холсте\"\n";
+			while (!graph_flag)
+			{
+				cin >> graph_switch;
+				switch (graph_switch)
+				{
+				case 1:
+					graph();
+					graph_flag = true;
+					break;
+				case 2:
+					system("c:\\windows\\syswow64\\cmd.exe /c c:\\windows\\sysnative\\cmd.exe /c start /b /w /D\"C:\\Users\\soumireL\\Code\\C++\\MIREA\\task4_5(graph)\\Debug\" task4_5(graph).exe");
+					graph_flag = true;
+					break;
+				default:
+					cout << "Я вас не понимаю. Введите номер варианта\n";
+				}
+			}
 			break;
 		case(6):
 			cout << "Задание: Автоматный распознаватель" << endl;
@@ -535,26 +715,35 @@ int main()
 		case(9):
 			cout << "Задание: Системы счисления\n";
 			err_flag = false;
+			err_flag_2 = true;
 			while (!err_flag)
 			{
 				cout << "Введите исходное число: " << endl;
 				cin >> start_input_num;
 				for (size_t i = 0; i < start_input_num.length(); i++)
 				{
-					if (start_input_num[i] > 70 || (start_input_num[i] < 65 && start_input_num[i] > 57) || start_input_num[i] < 48)
+					if (start_input_num[i] > 90 || (start_input_num[i] < 65 && start_input_num[i] > 57) || start_input_num[i] < 48 && start_input_num[i] > 46 || start_input_num[i] < 46)
 					{
 						err_flag = false;
+						err_flag_2 = false;
 						cout << "Введено некорректное число. Пожалуйста, введите число снова\n";
 						start_input_num = "";
 						break;
 					}
 				}
+				if (err_flag_2)
+				{
 				err_flag = true;
+				}
 			}
-			cout << "Введите исходную систему счисления: " << endl;
-			start_input_syst = input_2_to_16();
+			while (start_input_syst == 0)
+			{
+				cout << "Введите исходную систему счисления: " << endl;
+				start_input_syst = input_2_to_32();
+				start_input_syst = correct_syst_input(start_input_syst, start_input_num);
+			}
 			cout << "Введите конечную систему счисления: " << endl;
-			new_input_syst = input_2_to_16();
+			new_input_syst = input_2_to_32();
 			number_systems(start_input_num, start_input_syst, new_input_syst);
 			break;
 		default:
