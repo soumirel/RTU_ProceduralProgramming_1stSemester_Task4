@@ -584,7 +584,7 @@ void number_systems(string start_num, int start_syst, int new_syst)
 			break;
 		}
 	}
-	if (new_number_int != "0")
+	if (new_number_int != "")
 	{
 		if (new_number_fract != ".")
 		{
@@ -716,6 +716,7 @@ int main()
 			cout << "Задание: Системы счисления\n";
 			err_flag = false;
 			err_flag_2 = true;
+			start_input_syst = 0;
 			while (!err_flag)
 			{
 				cout << "Введите исходное число: " << endl;
